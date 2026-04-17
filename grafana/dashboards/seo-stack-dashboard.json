@@ -1,64 +1,36 @@
 {
   "dashboard": {
     "id": null,
-    "uid": "agentic-marketing-stack",
-    "title": "Agentic Marketing - Full Stack Dashboard",
-    "tags": ["seo", "ml", "agentic-marketing", "istio"],
+    "uid": "agentic-marketing-v5",
+    "title": "Agentic ML Marketing v5.0.0",
+    "tags": ["agentic-marketing", "ml", "istio"],
     "timezone": "Australia/Sydney",
     "schemaVersion": 39,
-    "version": 2,
+    "version": 1,
     "refresh": "10s",
     "time": {"from": "now-6h", "to": "now"},
     "panels": [
-      {
-        "id": 1, "title": "ML Prediction Accuracy", "type": "stat",
-        "gridPos": {"h": 8, "w": 6, "x": 0, "y": 0},
-        "targets": [{"expr": "ml_prediction_accuracy", "legendFormat": "Accuracy"}],
-        "fieldConfig": {"defaults": {"color": {"mode": "thresholds"}, "thresholds": {"steps": [{"color": "red", "value": null}, {"color": "green", "value": 90}]}}}
-      },
-      {
-        "id": 2, "title": "Campaign ROI", "type": "gauge",
-        "gridPos": {"h": 8, "w": 6, "x": 6, "y": 0},
-        "targets": [{"expr": "campaign_roi", "legendFormat": "ROI"}],
-        "fieldConfig": {"defaults": {"min": 0, "max": 10, "thresholds": {"steps": [{"color": "red", "value": null}, {"color": "yellow", "value": 3}, {"color": "green", "value": 5}]}}}
-      },
-      {
-        "id": 3, "title": "AI Score Reduction", "type": "stat",
-        "gridPos": {"h": 8, "w": 6, "x": 12, "y": 0},
-        "targets": [{"expr": "rate(ai_score_reduction[5m])", "legendFormat": "AI Score"}]
-      },
-      {
-        "id": 4, "title": "Schema Generation Rate", "type": "graph",
-        "gridPos": {"h": 8, "w": 6, "x": 18, "y": 0},
-        "targets": [{"expr": "rate(schema_generated_total[5m])", "legendFormat": "Schemas/min"}]
-      },
-      {
-        "id": 5, "title": "Istio Request Rate by Service", "type": "graph",
-        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
-        "targets": [{"expr": "rate(istio_requests_total[5m])", "legendFormat": "{{destination_service_name}}"}]
-      },
-      {
-        "id": 6, "title": "Service Latency (p99)", "type": "graph",
-        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
-        "targets": [{"expr": "histogram_quantile(0.99, rate(istio_request_duration_milliseconds_bucket[5m]))", "legendFormat": "{{destination_service_name}}"}]
-      },
-      {
-        "id": 7, "title": "ML Model Training Events", "type": "graph",
-        "gridPos": {"h": 8, "w": 8, "x": 0, "y": 16},
-        "targets": [{"expr": "rate(ml_training_events_total[5m])", "legendFormat": "Training/min"}]
-      },
-      {
-        "id": 8, "title": "Monte Carlo Optimization Runs", "type": "stat",
-        "gridPos": {"h": 8, "w": 8, "x": 8, "y": 16},
-        "targets": [{"expr": "mc_optimization_runs_total", "legendFormat": "Total Runs"}]
-      },
-      {
-        "id": 9, "title": "DFS Strategy Generations", "type": "stat",
-        "gridPos": {"h": 8, "w": 8, "x": 16, "y": 16},
-        "targets": [{"expr": "dfs_strategy_generations_total", "legendFormat": "Strategies"}]
-      }
+      {"id":1,"title":"MAB Thompson Sampling ROI","type":"stat","gridPos":{"h":8,"w":6,"x":0,"y":0},
+       "targets":[{"expr":"thompson_sampling_roi","legendFormat":"ROI"}]},
+      {"id":2,"title":"MCTS Predicted ROI","type":"gauge","gridPos":{"h":8,"w":6,"x":6,"y":0},
+       "targets":[{"expr":"mcts_predicted_roi","legendFormat":"Predicted ROI"}],
+       "fieldConfig":{"defaults":{"min":0,"max":10,"thresholds":{"steps":[{"color":"red","value":null},{"color":"yellow","value":3},{"color":"green","value":5}]}}}},
+      {"id":3,"title":"Total Agentic Actions","type":"stat","gridPos":{"h":8,"w":6,"x":12,"y":0},
+       "targets":[{"expr":"agentic_actions_total","legendFormat":"Actions"}]},
+      {"id":4,"title":"Semantic Memory Size","type":"stat","gridPos":{"h":8,"w":6,"x":18,"y":0},
+       "targets":[{"expr":"semantic_memory_size","legendFormat":"Memories"}]},
+      {"id":5,"title":"Channel Allocation (Thompson)","type":"graph","gridPos":{"h":8,"w":12,"x":0,"y":8},
+       "targets":[{"expr":"thompson_channel_allocation","legendFormat":"{{channel}}"}]},
+      {"id":6,"title":"MCTS Search Latency","type":"graph","gridPos":{"h":8,"w":12,"x":12,"y":8},
+       "targets":[{"expr":"histogram_quantile(0.95, rate(mcts_search_duration_bucket[5m]))","legendFormat":"p95"}]},
+      {"id":7,"title":"Redis Memory Usage","type":"graph","gridPos":{"h":8,"w":8,"x":0,"y":16},
+       "targets":[{"expr":"redis_memory_used_bytes","legendFormat":"Used"}]},
+      {"id":8,"title":"Prometheus Scrape Duration","type":"graph","gridPos":{"h":8,"w":8,"x":8,"y":16},
+       "targets":[{"expr":"prometheus_target_interval_length_seconds{quantile=\"0.99\"}","legendFormat":"{{job}}"}]},
+      {"id":9,"title":"Agentic Cycle Success Rate","type":"stat","gridPos":{"h":8,"w":8,"x":16,"y":16},
+       "targets":[{"expr":"rate(agentic_cycle_success_total[5m])","legendFormat":"Rate"}]}
     ]
   },
   "overwrite": true,
-  "message": "Updated with ML Marketing Agent panels"
+  "message": "Agentic ML Marketing v5.0.0 Dashboard"
 }
