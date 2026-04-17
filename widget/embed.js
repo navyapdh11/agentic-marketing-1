@@ -179,7 +179,7 @@
         const result = document.getElementById('amSeoResult');
         result.innerHTML = '<div class="am-badge am-badge-blue">Auditing...</div>';
         const data = await apiCall('GET', `/api/seo/audit?domain=${domain}`);
-        if (data.error) { result.innerHTML = `<div class="am-result">❌ ${data.error}</div>`; return;
+        if (data.error) { result.innerHTML = `<div class="am-result">❌ ${data.error}</div>`; return; }
         result.innerHTML = `<div class="am-result">
             <div class="am-metric"><span>Score</span><strong>${data.score || 87}/100</strong></div>
             <div class="am-metric"><span>Issues</span><strong>${data.issues || 3}</strong></div>

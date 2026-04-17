@@ -220,8 +220,8 @@ async def seo_audit(request: Request, domain: str = "example.com"):
         async with httpx.AsyncClient(timeout=30) as client:
             resp = await client.get(f"{SEO_ENGINE_URL}/api/audit", params={"domain": domain})
             return resp.json()
-    except Exception as e:
-        return {"status": "simulated", "domain": domain, "score": 87, "issues": 3, "note": str(e)}
+    except Exception:
+        return {"status": "simulated", "domain": domain, "score": 87, "issues": 3}
 
 
 @app.get("/api/seo/schema", tags=["SEO"])
@@ -306,13 +306,21 @@ async def analyze_content(request: Request, body: HumanizeRequest):
 @limiter.limit(RATE_LIMIT)
 async def ml_optimize(request: Request, body: MLActionRequest):
     """Run MCTS + Thompson Sampling optimization."""
-    import numpy as np
+    import random
+    import math
 
-    # Thompson Sampling
+    # Thompson Sampling (Beta distribution via stdlib)
+    def beta_sample(a, b):
+        """Approximate Beta sampling using Gamma distributions."""
+        x = sum(-math.log(random.random()) for _ in range(int(max(a, 1))))
+        y = sum(-math.log(random.random()) for _ in range(int(max(b, 1))))
+        return x / (x + y) if (x + y) > 0 else 0.5
+
     posteriors = {}
     for ch in body.channels:
-        alpha, beta = 2.0 + np.random.random() * 5, 2.0 + np.random.random() * 3
-        posteriors[ch] = float(np.random.beta(alpha, beta))
+        alpha = 2.0 + random.random() * 5
+        beta_p = 2.0 + random.random() * 3
+        posteriors[ch] = round(beta_sample(alpha, beta_p), 3)
 
     best_action = max(posteriors, key=posteriors.get)
 
@@ -322,19 +330,19 @@ async def ml_optimize(request: Request, body: MLActionRequest):
     total_w = sum(weights.values())
     allocation = {ch: round(body.budget * w / total_w, 2) for ch, w in weights.items()}
 
-    predicted_roi = sum(allocation[ch] * roi_map.get(ch, 3.0) / 100 for ch in body.channels)
+    predicted_roi = round(sum(allocation[ch] * roi_map.get(ch, 3.0) / 100 for ch in body.channels), 2)
 
     recommendations = [
         f"Shift budget to {best_action} (highest posterior: {posteriors[best_action]:.3f})",
-        f"Expected ROI: {predicted_roi:.2f}x",
+        f"Expected ROI: {predicted_roi}x",
         f"Consider reducing {min(weights, key=weights.get)} allocation"
     ]
 
     return {
         "thompson_action": best_action,
-        "posteriors": {k: round(v, 3) for k, v in posteriors.items()},
+        "posteriors": posteriors,
         "mcts_allocation": allocation,
-        "predicted_roi": round(predicted_roi, 2),
+        "predicted_roi": predicted_roi,
         "recommendations": recommendations,
         "timestamp": datetime.utcnow().isoformat()
     }
