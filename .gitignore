@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+venv/
+.venv/
+
+# Models
+packages/ml-marketing-agent/models/*.pkl
+packages/ml-marketing-agent/models/*.json
+
+# Data
+data/
+packages/*/data/
+packages/*/output/
+
+# Env
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

@@ -1,108 +1,64 @@
 {
   "dashboard": {
     "id": null,
-    "uid": "hermes-seo-stack",
-    "title": "Agentic Marketing SEO Stack",
-    "tags": ["seo", "agentic-marketing", "istio"],
+    "uid": "agentic-marketing-stack",
+    "title": "Agentic Marketing - Full Stack Dashboard",
+    "tags": ["seo", "ml", "agentic-marketing", "istio"],
     "timezone": "Australia/Sydney",
     "schemaVersion": 39,
-    "version": 1,
-    "refresh": "30s",
-    "time": {
-      "from": "now-6h",
-      "to": "now"
-    },
+    "version": 2,
+    "refresh": "10s",
+    "time": {"from": "now-6h", "to": "now"},
     "panels": [
       {
-        "id": 1,
-        "title": "AI Score Reduction",
-        "type": "stat",
-        "gridPos": {"h": 8, "w": 8, "x": 0, "y": 0},
-        "targets": [
-          {
-            "expr": "rate(ai_score_reduction[5m])",
-            "legendFormat": "AI Score"
-          }
-        ],
-        "fieldConfig": {
-          "defaults": {
-            "color": {"mode": "thresholds"},
-            "thresholds": {
-              "steps": [
-                {"color": "red", "value": null},
-                {"color": "yellow", "value": 50},
-                {"color": "green", "value": 75}
-              ]
-            }
-          }
-        }
+        "id": 1, "title": "ML Prediction Accuracy", "type": "stat",
+        "gridPos": {"h": 8, "w": 6, "x": 0, "y": 0},
+        "targets": [{"expr": "ml_prediction_accuracy", "legendFormat": "Accuracy"}],
+        "fieldConfig": {"defaults": {"color": {"mode": "thresholds"}, "thresholds": {"steps": [{"color": "red", "value": null}, {"color": "green", "value": 90}]}}}
       },
       {
-        "id": 2,
-        "title": "Schema Generation Rate",
-        "type": "graph",
-        "gridPos": {"h": 8, "w": 8, "x": 8, "y": 0},
-        "targets": [
-          {
-            "expr": "rate(schema_generated_total[5m])",
-            "legendFormat": "Schemas/min"
-          }
-        ]
+        "id": 2, "title": "Campaign ROI", "type": "gauge",
+        "gridPos": {"h": 8, "w": 6, "x": 6, "y": 0},
+        "targets": [{"expr": "campaign_roi", "legendFormat": "ROI"}],
+        "fieldConfig": {"defaults": {"min": 0, "max": 10, "thresholds": {"steps": [{"color": "red", "value": null}, {"color": "yellow", "value": 3}, {"color": "green", "value": 5}]}}}
       },
       {
-        "id": 3,
-        "title": "Rank Prediction Accuracy",
-        "type": "gauge",
-        "gridPos": {"h": 8, "w": 8, "x": 16, "y": 0},
-        "targets": [
-          {
-            "expr": "ml_accuracy",
-            "legendFormat": "Accuracy"
-          }
-        ],
-        "fieldConfig": {
-          "defaults": {
-            "min": 0,
-            "max": 100,
-            "thresholds": {
-              "steps": [
-                {"color": "red", "value": null},
-                {"color": "yellow", "value": 80},
-                {"color": "green", "value": 90}
-              ]
-            }
-          }
-        }
+        "id": 3, "title": "AI Score Reduction", "type": "stat",
+        "gridPos": {"h": 8, "w": 6, "x": 12, "y": 0},
+        "targets": [{"expr": "rate(ai_score_reduction[5m])", "legendFormat": "AI Score"}]
       },
       {
-        "id": 4,
-        "title": "Istio Request Rate",
-        "type": "graph",
+        "id": 4, "title": "Schema Generation Rate", "type": "graph",
+        "gridPos": {"h": 8, "w": 6, "x": 18, "y": 0},
+        "targets": [{"expr": "rate(schema_generated_total[5m])", "legendFormat": "Schemas/min"}]
+      },
+      {
+        "id": 5, "title": "Istio Request Rate by Service", "type": "graph",
         "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
-        "targets": [
-          {
-            "expr": "rate(istio_requests_total[5m])",
-            "legendFormat": "{{destination_service_name}}"
-          }
-        ]
+        "targets": [{"expr": "rate(istio_requests_total[5m])", "legendFormat": "{{destination_service_name}}"}]
       },
       {
-        "id": 5,
-        "title": "Istio Latency (p99)",
-        "type": "graph",
+        "id": 6, "title": "Service Latency (p99)", "type": "graph",
         "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
-        "targets": [
-          {
-            "expr": "histogram_quantile(0.99, rate(istio_request_duration_milliseconds_bucket[5m]))",
-            "legendFormat": "{{destination_service_name}}"
-          }
-        ]
+        "targets": [{"expr": "histogram_quantile(0.99, rate(istio_request_duration_milliseconds_bucket[5m]))", "legendFormat": "{{destination_service_name}}"}]
+      },
+      {
+        "id": 7, "title": "ML Model Training Events", "type": "graph",
+        "gridPos": {"h": 8, "w": 8, "x": 0, "y": 16},
+        "targets": [{"expr": "rate(ml_training_events_total[5m])", "legendFormat": "Training/min"}]
+      },
+      {
+        "id": 8, "title": "Monte Carlo Optimization Runs", "type": "stat",
+        "gridPos": {"h": 8, "w": 8, "x": 8, "y": 16},
+        "targets": [{"expr": "mc_optimization_runs_total", "legendFormat": "Total Runs"}]
+      },
+      {
+        "id": 9, "title": "DFS Strategy Generations", "type": "stat",
+        "gridPos": {"h": 8, "w": 8, "x": 16, "y": 16},
+        "targets": [{"expr": "dfs_strategy_generations_total", "legendFormat": "Strategies"}]
       }
-    ],
-    "templating": {
-      "list": []
-    }
+    ]
   },
   "overwrite": true,
-  "message": "Agentic Marketing SEO Stack Dashboard"
+  "message": "Updated with ML Marketing Agent panels"
 }

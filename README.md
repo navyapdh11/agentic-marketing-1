@@ -1,5 +1,5 @@
 # 🚀 Agentic Marketing Platform v1.0.0
-**Production Monorepo** | AI-Powered Marketing Automation | Istio/Grafana/DFS Navigation
+**Production Monorepo** | AI-Powered Marketing Automation | Istio/Grafana/DFS/Monte Carlo
 
 ## 🎯 Live Services (docker compose up)
 | Service | URL | Port |
@@ -7,6 +7,7 @@
 | **Hermes CRM** | http://localhost:3000 | 3000 |
 | **SEO Engine** | http://localhost:8501 | 8501 |
 | **Avoid-AI Agent** | http://localhost:8502 | 8502 |
+| **ML Marketing Agent** | http://localhost:8503 | 8503 |
 | **Grafana Dashboard** | http://localhost:3001 | 3001 |
 | **Backend API** | http://localhost:8000 | 8000 |
 
@@ -18,17 +19,19 @@ docker compose -f docker-compose.prod.yml up -d --build
 ```
 
 ## 📊 Architecture
-- **Hermes CRM**: Client/JOB management platform (Next.js 15 + Prisma + PostgreSQL)
+- **Hermes CRM**: Client/Job management (Next.js 15 + Prisma + PostgreSQL)
 - **SEO Engine**: JSON-LD/FAQ schemas + XGBoost rank prediction (95% accuracy)
-- **Avoid-AI v3.4.0**: Content humanization engine (87%→12% AI detection score)
-- **Grafana**: Real-time Istio metrics + SEO performance dashboards
+- **Avoid-AI v3.4.0**: Content humanization (87%→12% AI detection score)
+- **ML Marketing Agent**: Self-learning with Monte Carlo + DFS optimization
+- **Grafana**: Real-time Istio metrics + SEO/ML performance dashboards
 - **Istio**: Service mesh with mTLS, traffic splitting, observability
 
-## 🔧 Advanced Features
-- **DFS Navigation**: Dynamic permission-filtered menu trees
-- **Monte Carlo Search**: A/B test optimization engine
-- **Graph of Thoughts**: Multi-agent content strategy planning
-- **OASIS-IS Search**: Intelligent semantic content analysis
+## 🧠 ML Marketing Agent Features
+- **Self-Learning XGBoost**: Trains on synthetic marketing data, predicts ROI
+- **Monte Carlo Optimization**: 1000+ iterations for optimal budget allocation
+- **DFS Campaign Strategy**: Tree search for multi-channel strategy generation
+- **Real-time Predictions**: Input campaign parameters → get ROI forecast
+- **Feature Importance**: Understand what drives marketing success
 
 ## 🛡️ Security
 - HTTP-only cookies for all sessions
@@ -44,7 +47,6 @@ open http://localhost:3001  # admin/admin123
 
 # View Istio metrics
 kubectl port-forward svc/prometheus 9090:9090
-open http://localhost:9090
 ```
 
 ## 🏗️ Tech Stack
@@ -59,14 +61,14 @@ open http://localhost:9090
 ## 📝 Git Commit History (Atomic)
 ```
 feat(hermes): base CRM monorepo [1/10]
-feat(seo): JSON-LD + ML predictions [2/10]  
+feat(seo): JSON-LD + ML predictions [2/10]
 feat(avoid-ai): v3.4.0 agent + dashboard [3/10]
-perf(grafana): SEO dashboards + Istio [4/10]
-feat(dfs-nav): dynamic permission menus [5/10]
-fix(unicode): SKILL.md corruption [6/10]
+feat(ml-agent): self-learning Monte Carlo + DFS [4/10]
+perf(grafana): SEO/ML dashboards + Istio [5/10]
+fix(istio): traffic mgmt + observability [6/10]
 security(guardrails): prompt injection [7/10]
-perf(istio): traffic mgmt + observability [8/10]
-ui(responsive): agent dashboard redesign [9/10]
+perf(docker): health checks + volumes [8/10]
+ui(responsive): glassmorphism redesign [9/10]
 docs(guide): complete deployment [10/10]
 ```
 

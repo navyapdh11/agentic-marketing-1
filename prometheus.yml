@@ -15,6 +15,10 @@ scrape_configs:
     static_configs:
       - targets: ['avoid-ai-agent:8501']
 
+  - job_name: 'ml-marketing-agent'
+    static_configs:
+      - targets: ['ml-marketing-agent:8503']
+
   - job_name: 'backend'
     static_configs:
       - targets: ['backend:8000']

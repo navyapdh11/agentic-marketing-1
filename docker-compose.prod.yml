@@ -54,6 +54,17 @@ services:
       test: ['CMD', 'curl', '-f', 'http://localhost:8501/health']
       interval: 30s
 
+  ml-marketing-agent:
+    build: ./packages/ml-marketing-agent
+    restart: always
+    ports: ['8503:8503']
+    volumes:
+      - './packages/ml-marketing-agent/models:/app/models'
+      - './packages/ml-marketing-agent/output:/app/output'
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:8503/_stcore/health']
+      interval: 30s
+
   grafana:
     image: grafana/grafana:10.4.7-oss
     restart: always
