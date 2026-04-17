@@ -6,12 +6,8 @@ dist/
 venv/
 .venv/
 
-# Models
+# Models & Data
 packages/ml-marketing-agent/models/*.pkl
-packages/ml-marketing-agent/models/*.json
-
-# Data
-data/
 packages/*/data/
 packages/*/output/
 
@@ -25,4 +21,7 @@ packages/*/output/
 # OS
 .DS_Store
 Thumbs.db
-.vercel
+
+# Vercel
+.vercel/
+node_modules/

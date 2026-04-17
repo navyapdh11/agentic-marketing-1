@@ -1,12 +1,22 @@
 {
   "version": 2,
-  "name": "agentic-marketing",
   "builds": [
+    { "src": "backend/app/main.py", "use": "@vercel/python" },
     { "src": "*.html", "use": "@vercel/static" },
-    { "src": "*.css", "use": "@vercel/static" }
+    { "src": "*.css", "use": "@vercel/static" },
+    { "src": "sdk/*.js", "use": "@vercel/static" },
+    { "src": "widget/*.js", "use": "@vercel/static" }
   ],
   "routes": [
+    { "src": "/api/(.*)", "dest": "backend/app/main.py" },
+    { "src": "/health", "dest": "backend/app/main.py" },
+    { "src": "/docs", "dest": "backend/app/main.py" },
+    { "src": "/sdk/(.*)", "dest": "sdk/$1" },
+    { "src": "/widget/(.*)", "dest": "widget/$1" },
     { "src": "/style.css", "dest": "/style.css" },
     { "src": "/(.*)", "dest": "/index.html" }
-  ]
+  ],
+  "env": {
+    "PYTHON_VERSION": "3.12"
+  }
 }

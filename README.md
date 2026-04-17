@@ -1,48 +1,87 @@
 # 🚀 Agentic ML Marketing Platform v5.0.0
-**COMPLETE PRODUCTION MONOREPO** | Istio Service Mesh | Advanced AI Agents | Sydney Apr 2026
+**COMPLETE PRODUCTION MONOREPO** | REST API + SDK + Widget | Istio | Grafana | Sydney Apr 2026
 
-## 🎯 Live Production URLs
-| Service | Endpoint | Port |
-|---------|----------|------|
-| Agentic ML Marketing | http://localhost:8503 | 8503 |
-| SEO/AEO Engine | http://localhost:8501 | 8501 |
-| Avoid-AI Detector | http://localhost:8502 | 8502 |
-| Grafana Dashboards | http://localhost:3001 | 3001 |
-| Prometheus | http://localhost:9090 | 9090 |
+## 🎯 Live URLs
+| Service | URL |
+|---------|-----|
+| **API + Landing** | https://agentic-marketing-umber.vercel.app |
+| **API Docs** | https://agentic-marketing-umber.vercel.app/docs |
+| **Health Check** | https://agentic-marketing-umber.vercel.app/health |
+| **JavaScript SDK** | https://agentic-marketing-umber.vercel.app/sdk/agentic-marketing.js |
+| **Embeddable Widget** | See integration guide below |
+| **Grafana** | http://localhost:3001 (admin/hermes2026) |
 
-## 🔬 CORE TECHNOLOGIES
+## 🔌 Quick Integration (3 Lines)
+```html
+<script src="https://agentic-marketing-umber.vercel.app/sdk/agentic-marketing.js"></script>
+<script>
+  const am = new AgenticMarketing('amk-demo-key-001');
+  const result = await am.humanize('Your AI text here');
+</script>
 ```
-DFS + Tree/Graph of Thoughts + MCST + OASIS-IS Agentic Search
-Thompson Sampling (MAB) + RAG Semantic Memory
-Istio mTLS + Traffic Management + Circuit Breaking
-Glassmorphism UI (2026 Design System)
+
+## 📋 REST API Endpoints
+
+### SEO
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/api/seo/audit?domain=example.com` | Run SEO audit |
+| GET | `/api/seo/schema?page_type=Article` | Generate JSON-LD schema |
+| GET | `/api/seo/rank-prediction?keyword=test` | Predict SERP rank |
+
+### Content Humanization
+| Method | Path | Description |
+|--------|------|-------------|
+| POST | `/api/content/humanize` | Humanize AI content |
+| POST | `/api/content/analyze` | Analyze AI detection score |
+
+### ML Marketing
+| Method | Path | Description |
+|--------|------|-------------|
+| POST | `/api/ml/optimize` | MCTS + Thompson optimization |
+| POST | `/api/ml/predict?budget=5000` | Predict outcomes |
+| GET | `/api/ml/channels` | Channel performance |
+
+### Auth & Management
+| Method | Path | Description |
+|--------|------|-------------|
+| POST | `/api/auth/token` | Exchange API key for JWT |
+| POST | `/api/keys` | Create API key |
+| GET | `/api/keys` | List API keys |
+| POST | `/api/webhooks` | Register webhook |
+
+## 🧩 Widget Embed
+```html
+<script src="https://agentic-marketing-umber.vercel.app/widget/embed.js"
+  data-api-key="amk-demo-key-001"
+  data-theme="dark"
+  data-position="bottom-right"
+  data-base-url="https://agentic-marketing-umber.vercel.app">
+</script>
 ```
 
-## 🚀 5-MINUTE DEPLOY
+## 🔬 Technologies
+```
+FastAPI + Uvicorn | Thompson Sampling MAB | MCTS Planner
+RAG Semantic Memory | DFS Navigation | Istio mTLS
+Grafana 11 | Prometheus | Redis | Docker Compose
+```
+
+## 🚀 Deploy
 ```bash
 git clone https://github.com/navyapdh11/agentic-marketing-1.git
 cd agentic-marketing-1
 cp .env.example .env
 docker compose -f docker-compose.prod.yml up -d --build
-docker compose logs -f ml-marketing-agent
 ```
 
-## 📊 Istio Production (K8s)
-```bash
-istioctl install -f istio/istio-config.yaml
-kubectl apply -f istio/gateway.yaml -f istio/virtual-services.yaml
+## ✅ Git History
+```
+feat(api): complete REST API + SDK + Widget [33/40]
+feat(webhooks): external integration system [34/40]
+security(auth): API keys + JWT + rate limiting [35/40]
+feat(sdk): JavaScript SDK for any website [36/40]
+feat(widget): embeddable marketing widget [37/40]
 ```
 
-## ✅ ATOMIC GIT HISTORY
-```
-feat(v5.0): complete agentic ml marketing platform [25/40]
-refactor(mcts): production-grade ucb1 + 5k iters [26/40]
-feat(oasis): agentic search + tot/got integration [27/40]
-perf(rag): vector db + cosine + hybrid search [28/40]
-security(istio): mtls + circuit breaker + canary [29/40]
-ui(v5): glassmorphism 2026 + responsive grid [30/40]
-perf(grafana): agentic observability suite [31/40]
-docs(complete): production deployment guide [32/40]
-```
-
-**PRODUCTION STATUS**: ✅ 100% Uptime | Self-Learning Agents | Sydney-Optimized | Zero Errors
+**STATUS**: ✅ API Live | SDK Ready | Widget Embeddable | v5.0.0
