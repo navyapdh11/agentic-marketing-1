@@ -1,0 +1,99 @@
+# Coolify Docker Compose Deployment
+# Deploy via Coolify: Import this docker-compose file
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: am-postgres
+    environment:
+      POSTGRES_DB: hermes_crm
+      POSTGRES_USER: hermes
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-hermes123}
+    ports: ['5432:5432']
+    volumes: ['am-postgres-data:/var/lib/postgresql/data']
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U hermes']
+      interval: 10s
+    restart: always
+    networks: [am-network]
+
+  redis:
+    image: redis:7-alpine
+    container_name: am-redis
+    ports: ['6379:6379']
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 10s
+    restart: always
+    networks: [am-network]
+
+  seo-engine:
+    build:
+      context: ./packages/seo-engine
+      dockerfile: Dockerfile
+    container_name: am-seo
+    ports: ['8501:8501']
+    environment:
+      - SCRAPINGDOG_KEY=${SCRAPINGDOG_KEY:-demo}
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:8501/health']
+      interval: 30s
+    restart: always
+    depends_on: [redis]
+    networks: [am-network]
+
+  avoid-ai-agent:
+    build:
+      context: ./packages/avoid-ai-agent
+      dockerfile: Dockerfile
+    container_name: am-avoid-ai
+    ports: ['8502:8501']
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:8501/health']
+      interval: 30s
+    restart: always
+    networks: [am-network]
+
+  ml-marketing-agent:
+    build:
+      context: ./packages/ml-marketing-agent
+      dockerfile: Dockerfile
+    container_name: am-ml-agent
+    ports: ['8503:8503']
+    volumes: ['am-ml-models:/app/models']
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:8503/_stcore/health']
+      interval: 30s
+    restart: always
+    networks: [am-network]
+
+  grafana:
+    image: grafana/grafana:10.4.7-oss
+    container_name: am-grafana
+    ports: ['3001:3000']
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-admin123}
+    volumes:
+      - ./grafana:/etc/grafana/provisioning/dashboards
+      - am-grafana-data:/var/lib/grafana
+    restart: always
+    networks: [am-network]
+
+  prometheus:
+    image: prom/prometheus:v2.51.0
+    container_name: am-prometheus
+    ports: ['9090:9090']
+    volumes: ['./prometheus.yml:/etc/prometheus/prometheus.yml']
+    restart: always
+    networks: [am-network]
+
+volumes:
+  am-postgres-data:
+  am-ml-models:
+  am-grafana-data:
+
+networks:
+  am-network:
+    driver: bridge

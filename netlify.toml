@@ -1,0 +1,29 @@
+[build]
+  command = "echo 'Streamlit apps - no build needed'"
+  publish = "."
+
+[[redirects]]
+  from = "/seo/*"
+  to = "https://agentic-marketing-seo.onrender.com/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/avoid-ai/*"
+  to = "https://agentic-marketing-avoid-ai.onrender.com/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/ml-agent/*"
+  to = "https://agentic-marketing-ml-agent.onrender.com/:splat"
+  status = 200
+  force = true
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Content-Security-Policy = "default-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com;"

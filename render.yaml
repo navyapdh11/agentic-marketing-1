@@ -1,0 +1,37 @@
+services:
+  - type: web
+    name: agentic-marketing-seo
+    env: python
+    region: syd
+    plan: free
+    buildCommand: pip install -r packages/seo-engine/requirements-python.txt
+    startCommand: streamlit run packages/seo-engine/app.py --server.port=$PORT --server.address=0.0.0.0
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: SCRAPINGDOG_KEY
+        sync: false
+      - key: STREAMLIT_SERVER_PORT
+        value: 8501
+
+  - type: web
+    name: agentic-marketing-avoid-ai
+    env: python
+    region: syd
+    plan: free
+    buildCommand: pip install -r packages/avoid-ai-agent/requirements.txt
+    startCommand: streamlit run packages/avoid-ai-agent/app.py --server.port=$PORT --server.address=0.0.0.0
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+
+  - type: web
+    name: agentic-marketing-ml-agent
+    env: python
+    region: syd
+    plan: free
+    buildCommand: pip install -r packages/ml-marketing-agent/requirements.txt
+    startCommand: streamlit run packages/ml-marketing-agent/app.py --server.port=$PORT --server.address=0.0.0.0
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
