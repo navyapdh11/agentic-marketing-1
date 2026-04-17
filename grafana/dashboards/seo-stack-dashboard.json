@@ -1,0 +1,108 @@
+{
+  "dashboard": {
+    "id": null,
+    "uid": "hermes-seo-stack",
+    "title": "Agentic Marketing SEO Stack",
+    "tags": ["seo", "agentic-marketing", "istio"],
+    "timezone": "Australia/Sydney",
+    "schemaVersion": 39,
+    "version": 1,
+    "refresh": "30s",
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "panels": [
+      {
+        "id": 1,
+        "title": "AI Score Reduction",
+        "type": "stat",
+        "gridPos": {"h": 8, "w": 8, "x": 0, "y": 0},
+        "targets": [
+          {
+            "expr": "rate(ai_score_reduction[5m])",
+            "legendFormat": "AI Score"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {"mode": "thresholds"},
+            "thresholds": {
+              "steps": [
+                {"color": "red", "value": null},
+                {"color": "yellow", "value": 50},
+                {"color": "green", "value": 75}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 2,
+        "title": "Schema Generation Rate",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 8, "x": 8, "y": 0},
+        "targets": [
+          {
+            "expr": "rate(schema_generated_total[5m])",
+            "legendFormat": "Schemas/min"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Rank Prediction Accuracy",
+        "type": "gauge",
+        "gridPos": {"h": 8, "w": 8, "x": 16, "y": 0},
+        "targets": [
+          {
+            "expr": "ml_accuracy",
+            "legendFormat": "Accuracy"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "min": 0,
+            "max": 100,
+            "thresholds": {
+              "steps": [
+                {"color": "red", "value": null},
+                {"color": "yellow", "value": 80},
+                {"color": "green", "value": 90}
+              ]
+            }
+          }
+        }
+      },
+      {
+        "id": 4,
+        "title": "Istio Request Rate",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
+        "targets": [
+          {
+            "expr": "rate(istio_requests_total[5m])",
+            "legendFormat": "{{destination_service_name}}"
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Istio Latency (p99)",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8},
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.99, rate(istio_request_duration_milliseconds_bucket[5m]))",
+            "legendFormat": "{{destination_service_name}}"
+          }
+        ]
+      }
+    ],
+    "templating": {
+      "list": []
+    }
+  },
+  "overwrite": true,
+  "message": "Agentic Marketing SEO Stack Dashboard"
+}

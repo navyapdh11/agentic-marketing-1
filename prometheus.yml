@@ -1,0 +1,20 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'seo-engine'
+    static_configs:
+      - targets: ['seo-engine:8501']
+
+  - job_name: 'avoid-ai-agent'
+    static_configs:
+      - targets: ['avoid-ai-agent:8501']
+
+  - job_name: 'backend'
+    static_configs:
+      - targets: ['backend:8000']

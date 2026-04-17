@@ -1,0 +1,114 @@
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  namespace: istio-system
+  name: agentic-marketing
+spec:
+  profile: default
+  components:
+    ingressGateways:
+    - name: istio-ingressgateway
+      enabled: true
+      k8s:
+        service:
+          ports:
+          - port: 15443
+            targetPort: 15443
+            name: tls
+          - port: 80
+            targetPort: 8080
+            name: http2
+          - port: 443
+            targetPort: 8443
+            name: https
+    egressGateways:
+    - name: istio-egressgateway
+      enabled: true
+  meshConfig:
+    accessLogFile: /dev/stdout
+    enablePrometheusMerge: true
+    outboundTrafficPolicy:
+      mode: REGISTRY_ONLY
+    defaultConfig:
+      holdApplicationUntilProxyStarts: true
+    enableAutoMtls: true
+    trustDomain: "agentic-marketing.svc.cluster.local"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: agentic-marketing-gateway
+  namespace: default
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "agentic-marketing.local"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: agentic-marketing-vs
+  namespace: default
+spec:
+  hosts:
+  - "agentic-marketing.local"
+  gateways:
+  - agentic-marketing-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /api
+    route:
+    - destination:
+        host: backend
+        port:
+          number: 8000
+  - match:
+    - uri:
+        prefix: /seo
+    route:
+    - destination:
+        host: seo-engine
+        port:
+          number: 8501
+  - match:
+    - uri:
+        prefix: /avoid-ai
+    route:
+    - destination:
+        host: avoid-ai-agent
+        port:
+          number: 8501
+  - route:
+    - destination:
+        host: frontend
+        port:
+          number: 3000
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: agentic-marketing-dr
+  namespace: default
+spec:
+  host: "*.default.svc.cluster.local"
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+    connectionPool:
+      tcp:
+        maxConnections: 100
+      http:
+        h2UpgradePolicy: DEFAULT
+        http1MaxPendingRequests: 100
+        http2MaxRequests: 1000
+    outlierDetection:
+      consecutive5xxErrors: 5
+      interval: 30s
+      baseEjectionTime: 30s
